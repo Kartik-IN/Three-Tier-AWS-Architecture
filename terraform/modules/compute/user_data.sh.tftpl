@@ -1,0 +1,6 @@
+#!/bin/bash
+set -euo pipefail
+dnf install -y docker
+systemctl enable --now docker
+usermod -aG docker ec2-user
+docker run -d --restart unless-stopped --name app -p ${app_port}:${app_port} -e DATABASE_URL='${database_url}' ${image_uri} gunicorn --bind 0.0.0.0:${app_port} app:app

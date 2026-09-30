@@ -1,0 +1,14 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!terraform.tfvars.example
+.terraform.lock.hcl
+.env
+*.pem
+*.key
+__pycache__/
+.pytest_cache/
+*.pyc
+coverage.xml
+dist/

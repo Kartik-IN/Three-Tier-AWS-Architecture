@@ -1,0 +1,5 @@
+aws_region = "ap-south-1"
+name = "three-tier-demo"
+db_password = "replace-me-via-an-uncommitted-tfvars-file"
+# Set certificate_arn to enable HTTPS. Never commit real credentials or tfvars.
+# image_uri should point to the versioned application image in ECR.
