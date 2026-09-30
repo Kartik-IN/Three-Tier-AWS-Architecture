@@ -28,23 +28,19 @@ This project models a production-style web platform with clear network and secur
 ```mermaid
 flowchart TB
     User((Internet User)) --> ALB
-
-    subgraph AWS[AWS Region]
-      subgraph Public[Public Subnets - AZ A / AZ B]
-        ALB[Application Load Balancer\nHTTP / HTTPS]
-        NAT[NAT Gateway(s)]
+    subgraph AWS_Region
+      subgraph Public_Subnets
+        ALB["Application Load Balancer - HTTP / HTTPS"]
+        NAT["NAT Gateway"]
       end
-
-      subgraph App[Private Application Subnets - AZ A / AZ B]
-        ASG[Auto Scaling Group]
-        EC2A[EC2 + Docker + Gunicorn]
-        EC2B[EC2 + Docker + Gunicorn]
+      subgraph Private_App_Subnets
+        ASG["Auto Scaling Group"]
+        EC2A["EC2 - Docker - Gunicorn"]
+        EC2B["EC2 - Docker - Gunicorn"]
       end
-
-      subgraph Data[Private Database Subnets - AZ A / AZ B]
-        RDS[(Amazon RDS PostgreSQL)]
+      subgraph Private_DB_Subnets
+        RDS[("Amazon RDS PostgreSQL")]
       end
-
       ALB -->|App port| ASG
       ASG --> EC2A
       ASG --> EC2B
@@ -53,10 +49,9 @@ flowchart TB
       EC2A -. outbound .-> NAT
       EC2B -. outbound .-> NAT
     end
-
-    SG1[ALB SG: 80 / 443 from Internet] -.-> ALB
-    SG2[App SG: app port from ALB SG] -.-> ASG
-    SG3[DB SG: 5432 from App SG] -.-> RDS
+    SG1["ALB SG: ports 80 and 443"] -.-> ALB
+    SG2["App SG: app port from ALB SG"] -.-> ASG
+    SG3["DB SG: port 5432 from App SG"] -.-> RDS
 ```
 
 ### Request flow
